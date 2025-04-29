@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "devex_dotnet_serverless": {
+      "commandName": "Project",
+      "commandLineArgs": "--port 7130",
+      "launchBrowser": false
+    }
+  }
+}

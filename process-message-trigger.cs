@@ -5,20 +5,20 @@ using Microsoft.Extensions.Logging;
 
 namespace devex
 {
-    public class create_message_trigger
+    public class process_message_trigger
     {
-        private readonly ILogger<create_message_trigger> _logger;
+        private readonly ILogger<process_message_trigger> _logger;
 
-        public create_message_trigger(ILogger<create_message_trigger> logger)
+        public process_message_trigger(ILogger<process_message_trigger> logger)
         {
             _logger = logger;
         }
 
-        [Function("create_message_trigger")]
+        [Function("process_message_trigger")]
         public IActionResult Run([HttpTrigger(AuthorizationLevel.Anonymous, "get", "post")] HttpRequest req)
         {
             _logger.LogInformation("C# HTTP trigger function processed a request.");
-            return new OkObjectResult("Add Message");
+            return new OkObjectResult("Process Message");
         }
     }
 }

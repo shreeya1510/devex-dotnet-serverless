@@ -22,7 +22,7 @@ namespace devex
         }
 
         [Function("create_message_trigger")]
-        public IActionResult Run([HttpTrigger(AuthorizationLevel.Anonymous, "get", "post")] HttpRequest req)
+        public IActionResult Run([HttpTrigger(AuthorizationLevel.Anonymous, "get")] HttpRequest req)
         {
             _logger.LogInformation("C# HTTP trigger function processed a request.");
             // return new OkObjectResult("Add Message");
@@ -42,24 +42,24 @@ namespace devex
             IConnectionFactory cf = xff.CreateConnectionFactory();
 
             // Set the properties
-            cf.SetStringProperty(XMSC.WMQ_HOST_NAME, "qmhe-5273.qm.us-south.mq.appdomain.cloud");
-            cf.SetIntProperty(XMSC.WMQ_PORT, 32316);
-            cf.SetStringProperty(XMSC.WMQ_CHANNEL, "CLOUD.APP.SVRCONN");
-            cf.SetIntProperty(XMSC.WMQ_CONNECTION_MODE, XMSC.WMQ_CM_CLIENT);
-            cf.SetStringProperty(XMSC.WMQ_QUEUE_MANAGER, "QMHE");
-            cf.SetStringProperty(XMSC.USERID, "jakartatest");
-            cf.SetStringProperty(XMSC.PASSWORD, "QzuQLvV_j7LZyVDMcQ9O5geJltt6--gG4_eS4wcVu6rd");
-            cf.SetStringProperty(XMSC.WMQ_SSL_CIPHER_SPEC, "TLS_RSA_WITH_AES_128_CBC_SHA256");
-            cf.SetStringProperty(XMSC.WMQ_SSL_KEY_REPOSITORY, "*SYSTEM");
+            // cf.SetStringProperty(XMSC.WMQ_HOST_NAME, "qmhe-5273.qm.us-south.mq.appdomain.cloud");
+            // cf.SetIntProperty(XMSC.WMQ_PORT, 32316);
+            // cf.SetStringProperty(XMSC.WMQ_CHANNEL, "CLOUD.APP.SVRCONN");
+            // cf.SetIntProperty(XMSC.WMQ_CONNECTION_MODE, XMSC.WMQ_CM_CLIENT);
+            // cf.SetStringProperty(XMSC.WMQ_QUEUE_MANAGER, "QMHE");
+            // cf.SetStringProperty(XMSC.USERID, "jakartatest");
+            // cf.SetStringProperty(XMSC.PASSWORD, "QzuQLvV_j7LZyVDMcQ9O5geJltt6--gG4_eS4wcVu6rd");
+            // cf.SetStringProperty(XMSC.WMQ_SSL_CIPHER_SPEC, "TLS_RSA_WITH_AES_128_CBC_SHA256");
+            // cf.SetStringProperty(XMSC.WMQ_SSL_KEY_REPOSITORY, "*SYSTEM");
             
 
-            // cf.SetStringProperty(XMSC.WMQ_HOST_NAME, "localhost");
-            // cf.SetIntProperty(XMSC.WMQ_PORT, 1414);
-            // cf.SetStringProperty(XMSC.WMQ_CHANNEL, "DEV.APP.SVRCONN");
-            // cf.SetIntProperty(XMSC.WMQ_CONNECTION_MODE, XMSC.WMQ_CM_CLIENT);
-            // cf.SetStringProperty(XMSC.WMQ_QUEUE_MANAGER, "QM1");
-            // cf.SetStringProperty(XMSC.USERID, "app");
-            // cf.SetStringProperty(XMSC.PASSWORD, "passw0rd");
+            cf.SetStringProperty(XMSC.WMQ_HOST_NAME, "localhost");
+            cf.SetIntProperty(XMSC.WMQ_PORT, 1414);
+            cf.SetStringProperty(XMSC.WMQ_CHANNEL, "DEV.APP.SVRCONN");
+            cf.SetIntProperty(XMSC.WMQ_CONNECTION_MODE, XMSC.WMQ_CM_CLIENT);
+            cf.SetStringProperty(XMSC.WMQ_QUEUE_MANAGER, "QM1");
+            cf.SetStringProperty(XMSC.USERID, "app");
+            cf.SetStringProperty(XMSC.PASSWORD, "passw0rd");
             // Console.WriteLine("Connection Cipher is set to {0}", "");
             // Console.WriteLine("Key Repository is set to {0}", "");
 

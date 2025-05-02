@@ -14,6 +14,16 @@ namespace devex
         private readonly ILogger<create_message_trigger> _logger;
         private static Random random = new Random();
 
+        public string HOST = "localhost";
+            public string QMGR = "QM1";
+            public int PORT = 1414;
+            public string CHANNEL = "DEV.APP.SVRCONN";
+            public string QUEUE_NAME = "DEV.QUEUE.1";
+            public string APP_USER = "app";
+            public string APP_PASSW0RD = "passw0rd";
+            public string CIPHER_SPEC = "TLS_RSA_WITH_AES_128_CBC_SHA256";
+            public string KEY_REPOSITORY = "*SYSTEM";
+
         int randomNumber = random.Next(1, 1000);
 
         public create_message_trigger(ILogger<create_message_trigger> logger)
@@ -25,6 +35,7 @@ namespace devex
         public IActionResult Run([HttpTrigger(AuthorizationLevel.Anonymous, "get")] HttpRequest req)
         {
             _logger.LogInformation("C# HTTP trigger function processed a request.");
+
             // return new OkObjectResult("Add Message");
              
              IConnection connectionWMQ;
@@ -53,13 +64,15 @@ namespace devex
             // cf.SetStringProperty(XMSC.WMQ_SSL_KEY_REPOSITORY, "*SYSTEM");
             
 
-            cf.SetStringProperty(XMSC.WMQ_HOST_NAME, "localhost");
-            cf.SetIntProperty(XMSC.WMQ_PORT, 1414);
-            cf.SetStringProperty(XMSC.WMQ_CHANNEL, "DEV.APP.SVRCONN");
+            cf.SetStringProperty(XMSC.WMQ_HOST_NAME, HOST);
+            cf.SetIntProperty(XMSC.WMQ_PORT, PORT);
+            cf.SetStringProperty(XMSC.WMQ_CHANNEL, CHANNEL);
             cf.SetIntProperty(XMSC.WMQ_CONNECTION_MODE, XMSC.WMQ_CM_CLIENT);
-            cf.SetStringProperty(XMSC.WMQ_QUEUE_MANAGER, "QM1");
-            cf.SetStringProperty(XMSC.USERID, "app");
-            cf.SetStringProperty(XMSC.PASSWORD, "passw0rd");
+            cf.SetStringProperty(XMSC.WMQ_QUEUE_MANAGER, QMGR);
+            cf.SetStringProperty(XMSC.USERID, APP_USER);
+            cf.SetStringProperty(XMSC.PASSWORD, APP_PASSW0RD);
+            cf.SetStringProperty(XMSC.WMQ_SSL_CIPHER_SPEC, CIPHER_SPEC);
+            cf.SetStringProperty(XMSC.WMQ_SSL_KEY_REPOSITORY, KEY_REPOSITORY);
             // Console.WriteLine("Connection Cipher is set to {0}", "");
             // Console.WriteLine("Key Repository is set to {0}", "");
 

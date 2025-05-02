@@ -9,8 +9,17 @@ namespace devex
     public class process_message_trigger
     {
         private readonly ILogger<process_message_trigger> _logger;
-        
+
         // private const int TIMEOUTTIME = 30000;
+        public string HOST = "localhost";
+        public string QMGR = "QM1";
+        public int PORT = 1414;
+        public string CHANNEL = "DEV.APP.SVRCONN";
+        public string QUEUE_NAME = "DEV.QUEUE.1";
+        public string APP_USER = "app";
+        public string APP_PASSW0RD = "passw0rd";
+        public string CIPHER_SPEC = "TLS_RSA_WITH_AES_128_CBC_SHA256";
+        public string KEY_REPOSITORY = "*SYSTEM";
 
         public process_message_trigger(ILogger<process_message_trigger> logger)
         {
@@ -18,65 +27,96 @@ namespace devex
         }
 
         [Function("process_message_trigger")]
-        public IActionResult Run([HttpTrigger(AuthorizationLevel.Anonymous, "post")] HttpRequest req)
+        public async Task<IActionResult> Run([HttpTrigger(AuthorizationLevel.Anonymous, "post")] HttpRequest req, FunctionContext context)
         {
             _logger.LogInformation("C# HTTP trigger function processed a request.");
+            var logger = context.GetLogger("process_message_trigger");
+            logger.LogInformation("Trigger received. Starting background MQ work...");
 
-            // Get an instance of factory.
-            XMSFactoryFactory xff = XMSFactoryFactory.GetInstance(XMSC.CT_WMQ);
-
-
-            // Create WMQ Connection Factory.
-            IConnectionFactory cf = xff.CreateConnectionFactory();
-
-            // Set the properties
-            // cf.SetStringProperty(XMSC.WMQ_HOST_NAME, "qmhe-5273.qm.us-south.mq.appdomain.cloud");
-            // cf.SetIntProperty(XMSC.WMQ_PORT, 32316);
-            // cf.SetStringProperty(XMSC.WMQ_CHANNEL, "CLOUD.APP.SVRCONN");
-            // cf.SetIntProperty(XMSC.WMQ_CONNECTION_MODE, XMSC.WMQ_CM_CLIENT);
-            // cf.SetStringProperty(XMSC.WMQ_QUEUE_MANAGER, "QMHE");
-            // cf.SetStringProperty(XMSC.USERID, "jakartatest");
-            // cf.SetStringProperty(XMSC.PASSWORD, "QzuQLvV_j7LZyVDMcQ9O5geJltt6--gG4_eS4wcVu6rd");
-            // cf.SetStringProperty(XMSC.WMQ_SSL_CIPHER_SPEC, "TLS_RSA_WITH_AES_128_CBC_SHA256");
-            // cf.SetStringProperty(XMSC.WMQ_SSL_KEY_REPOSITORY, "*SYSTEM");
-
-            cf.SetStringProperty(XMSC.WMQ_HOST_NAME, "localhost");
-            cf.SetIntProperty(XMSC.WMQ_PORT, 1414);
-            cf.SetStringProperty(XMSC.WMQ_CHANNEL, "DEV.APP.SVRCONN");
-            cf.SetIntProperty(XMSC.WMQ_CONNECTION_MODE, XMSC.WMQ_CM_CLIENT);
-            cf.SetStringProperty(XMSC.WMQ_QUEUE_MANAGER, "QM1");
-            cf.SetStringProperty(XMSC.USERID, "app");
-            cf.SetStringProperty(XMSC.PASSWORD, "passw0rd");
-
-
-             IConnection connectionWMQ;
-             IBM.XMS.ISession sessionWMQ;
-             IDestination destination;
-             IMessageConsumer consumer;
-             ITextMessage textMessage;
-
-             connectionWMQ = cf.CreateConnection();
-
-            // Create session
-            sessionWMQ = connectionWMQ.CreateSession(false, AcknowledgeMode.AutoAcknowledge);
-
-            // Create destination
-            destination = sessionWMQ.CreateQueue("DEV.QUEUE.1");
-
-            // Create consumer
-            consumer = sessionWMQ.CreateConsumer(destination);
-
-            // Start the connection to receive messages.
-            connectionWMQ.Start();
-
-            textMessage = (ITextMessage)consumer.Receive();
-
-            consumer.Close();
-            destination.Dispose();
-            sessionWMQ.Dispose();
-            connectionWMQ.Close();
-
-            return new OkObjectResult("Message Recieved");
+            // Fire-and-forget
+            // _ = Task.Run(() => HandleMqWorkAsync(logger));
+            await HandleMqWorkAsync(_logger); 
+            // Return immediately to avoid proxy timeouts
+            return new AcceptedResult(); // HTTP 202
         }
+        private async Task HandleMqWorkAsync(ILogger logger)
+        {
+            try
+            {
+                IConnection connectionWMQ;
+                IBM.XMS.ISession sessionWMQ;
+                IDestination destination;
+                IMessageConsumer consumer;
+                ITextMessage textMessage;
+
+                // Get an instance of factory.
+                XMSFactoryFactory xff = XMSFactoryFactory.GetInstance(XMSC.CT_WMQ);
+
+                // Create WMQ Connection Factory.
+                IConnectionFactory cf = xff.CreateConnectionFactory();
+
+                // Set the properties
+                // cf.SetStringProperty(XMSC.WMQ_HOST_NAME, "qmhe-5273.qm.us-south.mq.appdomain.cloud");
+                // cf.SetIntProperty(XMSC.WMQ_PORT, 32316);
+                // cf.SetStringProperty(XMSC.WMQ_CHANNEL, "CLOUD.APP.SVRCONN");
+                // cf.SetIntProperty(XMSC.WMQ_CONNECTION_MODE, XMSC.WMQ_CM_CLIENT);
+                // cf.SetStringProperty(XMSC.WMQ_QUEUE_MANAGER, "QMHE");
+                // cf.SetStringProperty(XMSC.USERID, "jakartatest");
+                // cf.SetStringProperty(XMSC.PASSWORD, "QzuQLvV_j7LZyVDMcQ9O5geJltt6--gG4_eS4wcVu6rd");
+                // cf.SetStringProperty(XMSC.WMQ_SSL_CIPHER_SPEC, "TLS_RSA_WITH_AES_128_CBC_SHA256");
+                // cf.SetStringProperty(XMSC.WMQ_SSL_KEY_REPOSITORY, "*SYSTEM");
+
+                cf.SetStringProperty(XMSC.WMQ_HOST_NAME, HOST);
+                cf.SetIntProperty(XMSC.WMQ_PORT, PORT);
+                cf.SetStringProperty(XMSC.WMQ_CHANNEL, CHANNEL);
+                cf.SetIntProperty(XMSC.WMQ_CONNECTION_MODE, XMSC.WMQ_CM_CLIENT);
+                cf.SetStringProperty(XMSC.WMQ_QUEUE_MANAGER, QMGR);
+                cf.SetStringProperty(XMSC.USERID, APP_USER);
+                cf.SetStringProperty(XMSC.PASSWORD, APP_PASSW0RD);
+                cf.SetStringProperty(XMSC.WMQ_SSL_CIPHER_SPEC, CIPHER_SPEC);
+                cf.SetStringProperty(XMSC.WMQ_SSL_KEY_REPOSITORY, KEY_REPOSITORY);
+
+                connectionWMQ = cf.CreateConnection();
+
+                // Create session
+                sessionWMQ = connectionWMQ.CreateSession(false, AcknowledgeMode.AutoAcknowledge);
+
+                // Create destination
+                destination = sessionWMQ.CreateQueue(QUEUE_NAME);
+
+                // Create consumer
+                consumer = sessionWMQ.CreateConsumer(destination);
+
+                // Start the connection to receive messages.
+                connectionWMQ.Start();
+
+                textMessage = (ITextMessage)consumer.Receive();
+                await Task.Delay(10000);
+
+                if (textMessage.Text == null)
+                {
+                    _logger.LogInformation("No MQ Message Received");
+                }
+
+                _logger.LogInformation(textMessage.Text);
+
+                var result = new OkObjectResult("Message Recieved");
+
+                consumer.Close();
+                destination.Dispose();
+                sessionWMQ.Dispose();
+                connectionWMQ.Close();
+            }
+            catch (XMSException ex)
+            {
+                _logger.LogError($"XMS Exception caught: {ex.Message}");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"MQ Exception caught: {ex.Message}");
+            }
+        }
+
     }
 }
+

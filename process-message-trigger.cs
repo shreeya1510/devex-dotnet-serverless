@@ -56,25 +56,25 @@ namespace devex
                 IConnectionFactory cf = xff.CreateConnectionFactory();
 
                 // Set the properties
-                // cf.SetStringProperty(XMSC.WMQ_HOST_NAME, "qmhe-5273.qm.us-south.mq.appdomain.cloud");
-                // cf.SetIntProperty(XMSC.WMQ_PORT, 32316);
-                // cf.SetStringProperty(XMSC.WMQ_CHANNEL, "CLOUD.APP.SVRCONN");
-                // cf.SetIntProperty(XMSC.WMQ_CONNECTION_MODE, XMSC.WMQ_CM_CLIENT);
-                // cf.SetStringProperty(XMSC.WMQ_QUEUE_MANAGER, "QMHE");
-                // cf.SetStringProperty(XMSC.USERID, "jakartatest");
-                // cf.SetStringProperty(XMSC.PASSWORD, "QzuQLvV_j7LZyVDMcQ9O5geJltt6--gG4_eS4wcVu6rd");
-                // cf.SetStringProperty(XMSC.WMQ_SSL_CIPHER_SPEC, "TLS_RSA_WITH_AES_128_CBC_SHA256");
-                // cf.SetStringProperty(XMSC.WMQ_SSL_KEY_REPOSITORY, "*SYSTEM");
-
-                cf.SetStringProperty(XMSC.WMQ_HOST_NAME, HOST);
-                cf.SetIntProperty(XMSC.WMQ_PORT, PORT);
-                cf.SetStringProperty(XMSC.WMQ_CHANNEL, CHANNEL);
+                cf.SetStringProperty(XMSC.WMQ_HOST_NAME, "qmhe-5273.qm.us-south.mq.appdomain.cloud");
+                cf.SetIntProperty(XMSC.WMQ_PORT, 32316);
+                cf.SetStringProperty(XMSC.WMQ_CHANNEL, "CLOUD.APP.SVRCONN");
                 cf.SetIntProperty(XMSC.WMQ_CONNECTION_MODE, XMSC.WMQ_CM_CLIENT);
-                cf.SetStringProperty(XMSC.WMQ_QUEUE_MANAGER, QMGR);
-                cf.SetStringProperty(XMSC.USERID, APP_USER);
-                cf.SetStringProperty(XMSC.PASSWORD, APP_PASSW0RD);
-                cf.SetStringProperty(XMSC.WMQ_SSL_CIPHER_SPEC, CIPHER_SPEC);
-                cf.SetStringProperty(XMSC.WMQ_SSL_KEY_REPOSITORY, KEY_REPOSITORY);
+                cf.SetStringProperty(XMSC.WMQ_QUEUE_MANAGER, "QMHE");
+                cf.SetStringProperty(XMSC.USERID, "jakartatest");
+                cf.SetStringProperty(XMSC.PASSWORD, "QzuQLvV_j7LZyVDMcQ9O5geJltt6--gG4_eS4wcVu6rd");
+                cf.SetStringProperty(XMSC.WMQ_SSL_CIPHER_SPEC, "TLS_RSA_WITH_AES_128_CBC_SHA256");
+                cf.SetStringProperty(XMSC.WMQ_SSL_KEY_REPOSITORY, "*SYSTEM");
+
+                // cf.SetStringProperty(XMSC.WMQ_HOST_NAME, HOST);
+                // cf.SetIntProperty(XMSC.WMQ_PORT, PORT);
+                // cf.SetStringProperty(XMSC.WMQ_CHANNEL, CHANNEL);
+                // cf.SetIntProperty(XMSC.WMQ_CONNECTION_MODE, XMSC.WMQ_CM_CLIENT);
+                // cf.SetStringProperty(XMSC.WMQ_QUEUE_MANAGER, QMGR);
+                // cf.SetStringProperty(XMSC.USERID, APP_USER);
+                // cf.SetStringProperty(XMSC.PASSWORD, APP_PASSW0RD);
+                // cf.SetStringProperty(XMSC.WMQ_SSL_CIPHER_SPEC, CIPHER_SPEC);
+                // cf.SetStringProperty(XMSC.WMQ_SSL_KEY_REPOSITORY, KEY_REPOSITORY);
 
                 connectionWMQ = cf.CreateConnection();
 

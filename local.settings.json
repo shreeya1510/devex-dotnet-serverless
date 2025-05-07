@@ -1,0 +1,15 @@
+{
+  "IsEncrypted": false,
+  "Values": {
+    "FUNCTIONS_WORKER_RUNTIME": "dotnet-isolated",
+    "HOST": "localhost",
+    "PORT": "1414",
+    "CHANNEL": "DEV.APP.SVRCONN",
+    "QMGR": "QM1",
+    "APP_USER": "app",
+    "APP_PASSWORD": "passw0rd",
+    "QUEUE_NAME": "DEV.QUEUE.1",
+    "CIPHER_SPEC": "TLS_RSA_WITH_AES_128_CBC_SHA256",
+    "KEY_REPOSITORY": "*SYSTEM"
+  }
+}

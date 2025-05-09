@@ -11,6 +11,15 @@
     "APP_PASSWORD__0": "QzuQLvV_j7LZyVDMcQ9O5geJltt6--gG4_eS4wcVu6rd",
     "QUEUE_NAME__0": "DEV.QUEUE.1",
     "CIPHER_SPEC__0": "TLS_RSA_WITH_AES_128_CBC_SHA256",
-    "KEY_REPOSITORY__0": "*SYSTEM"
+    "KEY_REPOSITORY__0": "*SYSTEM",
+    "HOST__1": "localhost",
+    "PORT__1": "1414",
+    "CHANNEL__1": "DEV.APP.SVRCONN",
+    "QMGR__1": "QM1",
+    "APP_USER__1": "app",
+    "APP_PASSWORD__1": "passw0rd",
+    "QUEUE_NAME__1": "DEV.QUEUE.1",
+    "CIPHER_SPEC__1": "TLS_RSA_WITH_AES_128_CBC_SHA256",
+    "KEY_REPOSITORY__1": "*SYSTEM"
   }
 }

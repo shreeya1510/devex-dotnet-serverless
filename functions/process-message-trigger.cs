@@ -9,6 +9,8 @@ namespace devex
     public class process_message_trigger
     {
         private readonly ILogger<process_message_trigger> _logger;
+        
+
 
         // private const int TIMEOUTTIME = 30000;
         public process_message_trigger(ILogger<process_message_trigger> logger)
@@ -85,6 +87,14 @@ namespace devex
                 cf.SetStringProperty(XMSC.WMQ_SSL_KEY_REPOSITORY, KEY_REPOSITORY);
                  _logger.LogInformation(GetEnvironmentVariable("KEY_REPOSITORY"));
 
+            //      /string ccdtURL = CheckForCCDT();
+
+            //      if (null != ccdtURL)
+            // {
+            //     Console.WriteLine("CCDT Environment setting found");
+            //     cf.SetStringProperty(XMSC.WMQ_CCDTURL, ccdtURL);
+            // }
+
                  // Create connection.
                 connectionWMQ = cf.CreateConnection();
 
@@ -130,6 +140,7 @@ namespace devex
         {
             return System.Environment.GetEnvironmentVariable(name, EnvironmentVariableTarget.Process);
         }
+
 
     }
 }
